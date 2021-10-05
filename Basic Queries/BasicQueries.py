@@ -6,7 +6,9 @@ from Loggers import logger
 load_dotenv()
 
 class crud_operation:
-
+    """
+        Description: Methods to perform CRUD operation.
+    """
     def __init__(self):
      
         host=os.getenv('HOST')
@@ -104,7 +106,7 @@ class crud_operation:
     def insert(self):
         '''
         Description:
-            This function used to insert values into student and employee table.
+            This function used to insert values into  employee table.
         Parameter:
             it takes self as parameter.
         '''
@@ -112,7 +114,7 @@ class crud_operation:
         try:
             self.db_cursor.execute("USE employee_db")
 
-            employee_sql_query = "INSERT INTO employee(id,emp_name,job_name,salary) VALUES(1, 'Namratha','Manager',156525)"
+            employee_sql_query = "INSERT INTO employee(id,emp_name,job_name,salary) VALUES(1, 'Namratha','Manager',15600)"
 
             self.db_cursor.execute(employee_sql_query)
 
@@ -128,7 +130,7 @@ class crud_operation:
     def insert_many(self):
         '''
         Description:
-            This function used to insert values into student and employee table.
+            This function used to insert values into employee table.
         Parameter:
             it takes self as parameter.
         '''
@@ -136,7 +138,7 @@ class crud_operation:
         try:
             sql = "INSERT INTO employee(id, emp_name,job_name,salary) VALUES(%s, %s,%s,%s)"
             val = [(2, 'Dinitha','ASE',12500),
-                    (3, 'Lohith','Clerk',20986),
+                    (3, 'Lohith','Clerk',20900),
                     (4, 'Shubham','TL',89000),
                     (5, 'Shobhith','SSE',54250)]
 
@@ -189,6 +191,25 @@ class crud_operation:
 
         except Exception as e:
             logger.error(e)
+
+    def having(self):
+        '''
+        Description:
+            This function checks having conditions and returns the row.
+        Parameter:
+            it takes self as parameter.
+        '''
+
+        try:
+            self.db_cursor.execute("SELECT emp_name,SUM(salary) FROM employee GROUP BY emp_name HAVING SUM(salary) > 20900")
+            result = self.db_cursor.fetchall()
+            for x1 in result:
+                logger.info(x1)
+                #print(x)
+
+
+        except Exception as e:
+            logger.error(e)        
     
     def update(self):
         '''
@@ -317,8 +338,8 @@ class crud_operation:
         try:
             self.db_cursor.execute("SELECT SUM(SALARY) FROM employee")
             result = self.db_cursor.fetchall()
-            logger.info(result)
-            #print(result)
+            #logger.info(result)
+            print(result[0][0])
             
             self.db_cursor.execute("SELECT MAX(SALARY) FROM employee")
             result1 = self.db_cursor.fetchall()
@@ -332,7 +353,7 @@ class crud_operation:
 
             self.db_cursor.execute("SELECT AVG(SALARY) FROM employee")
             result1 = self.db_cursor.fetchall()
-            logger.info(result)
+            logger.info(result1)
             #print(result1)
 
             self.db_cursor.execute("SELECT COUNT(SALARY) FROM employee")
@@ -357,7 +378,7 @@ class crud_operation:
                 logger.info(x)
                 #print(x)
 
-            self.db_cursor.execute("SELECT *FROM employee WHERE EMP_NAME LIKE 'S_%'")
+            self.db_cursor.execute("SELECT *FROM employee WHERE EMP_NAME LIKE 'S%'")
             result = self.db_cursor.fetchall()
             for x in result:
                 logger.info(x)
@@ -394,6 +415,7 @@ if __name__ == "__main__":
     crud.insert_many()
     crud.select()
     crud.where()
+    crud.having()
     crud.update()
     crud.delete()
     crud.orderby()
