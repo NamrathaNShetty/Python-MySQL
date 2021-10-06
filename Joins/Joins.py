@@ -70,8 +70,8 @@ class joins:
         '''
         
         try:
-            self.db_cursor.execute('''SELECT employee.EMP_ID, customer.CUST_ID FROM employee 
-                                    INNER JOIN customer ON employee.NAME = customer.NAME''')
+            self.db_cursor.execute('''SELECT employee.EMP_NAME, customer.CUST_NAME FROM employee 
+                                    INNER JOIN customer ON employee.ID = customer.ID''')
             result = self.db_cursor.fetchall()
 
             for x in result:
@@ -89,15 +89,15 @@ class joins:
         '''
         
         try:
-            self.db_cursor.execute('''SELECT employee.EMP_ID, customer.CUST_ID FROM employee 
-                                    LEFT JOIN customer ON employee.NAME = customer.NAME''')
+            self.db_cursor.execute('''SELECT employee.EMP_NAME, customer.CUST_NAME FROM employee 
+                                    LEFT JOIN customer ON employee.ID = customer.ID''')
             result = self.db_cursor.fetchall()
 
             for x in result:
                 logger.info(x)
 
             self.db_cursor.execute('''SELECT employee.JOB_NAME, customer.SALARY FROM employee 
-                                    LEFT JOIN customer ON employee.NAME = customer.NAME''')
+                                    LEFT JOIN customer ON employee.ID = customer.ID''')
             result = self.db_cursor.fetchall()
 
             for x1 in result:
@@ -115,15 +115,15 @@ class joins:
         '''
         
         try:
-            self.db_cursor.execute('''SELECT employee.EMP_ID, customer.CUST_ID FROM employee 
-                                    RIGHT JOIN customer ON employee.NAME = customer.NAME''')
+            self.db_cursor.execute('''SELECT employee.EMP_NAME, customer.CUST_NAME FROM employee 
+                                    RIGHT JOIN customer ON employee.ID = customer.ID''')
             result = self.db_cursor.fetchall()
 
             for x in result:
                 logger.info(x)
 
             self.db_cursor.execute('''SELECT employee.JOB_NAME, customer.SALARY FROM employee 
-                                    RIGHT JOIN customer ON employee.NAME = customer.NAME''')
+                                    RIGHT JOIN customer ON employee.ID = customer.ID''')
             result1 = self.db_cursor.fetchall()
 
             for x1 in result1:
@@ -131,6 +131,28 @@ class joins:
         
         except Exception as e:
             logger.error(e)  
+
+
+    def full_join(self):
+        '''
+        Description:
+            This function performs RIGHT JOIN.
+        Parameter:
+            it takes self as paramter.
+        '''
+        
+        try:
+            self.db_cursor.execute('''SELECT employee.EMP_NAME, customer.CUST_NAME FROM employee 
+                                    LEFT JOIN customer ON employee.ID = customer.ID
+                                    UNION SELECT employee.EMP_NAME, customer.CUST_NAME FROM employee 
+                                    RIGHT JOIN customer ON employee.ID = customer.ID''')
+            result = self.db_cursor.fetchall()
+
+            for x in result:
+                logger.info(x)
+
+        except Exception as e:
+            logger.error(e)          
             
     def cross_join(self):
         '''
@@ -141,7 +163,7 @@ class joins:
         '''
         
         try:
-            self.db_cursor.execute('''SELECT employee.EMP_ID, customer.CUST_ID FROM employee 
+            self.db_cursor.execute('''SELECT employee.EMP_NAME, customer.CUST_NAME FROM employee 
                                     CROSS JOIN customer ''')
             result = self.db_cursor.fetchall()
 
@@ -167,13 +189,22 @@ class joins:
         '''
         
         try:
-            self.db_cursor.execute('''SELECT A.Name AS Name1, B.Name AS Name2, A.job_name
+            self.db_cursor.execute('''SELECT A.ID AS ID1, B.ID AS ID2, A.job_name
                                       FROM employee A, employee B
-                                      WHERE A.emp_id = B.emp_id''')
+                                      WHERE A.emp_name = B.emp_name''')
             result = self.db_cursor.fetchall()
 
             for x in result:
                 logger.info(x)
+
+            self.db_cursor.execute('''SELECT A.id,B.emp_name
+                                      FROM employee AS A, employee B
+                                      WHERE A.job_name = B.job_name''')
+            result = self.db_cursor.fetchall()
+
+            for x1 in result:
+                logger.info(x1)
+    
 
         except Exception as e:
             logger.error(e)        
@@ -186,6 +217,8 @@ if __name__ == "__main__":
     join.innerjoin()
     join.left_join()
     join.right_join()
+    join.full_join()
     join.cross_join()
     join.self_join()
+   
     
