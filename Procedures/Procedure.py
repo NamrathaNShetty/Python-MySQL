@@ -38,7 +38,7 @@ class procedure:
     def create_procedures(self):
         '''
         Description:
-            This function creates procedure.
+            This function creates procedure with in,out and inout parameter.
         Parameter:
             it takes self as parameter.
         '''
@@ -94,7 +94,7 @@ class procedure:
     def call_inparameter(self):
         '''
         Description:
-            This function calls already created stored procedure.
+            This function calls already created in paramater procedure.
         Parameter:
             it takes self as parameter.
         '''
@@ -113,7 +113,7 @@ class procedure:
     def call_outparameter(self):
         '''
         Description:
-            This function calls already created stored procedure.
+            This function calls already created out paramater procedure.
         Parameter:
             it takes self as parameter.
         '''
@@ -133,7 +133,7 @@ class procedure:
     def call_inoutparameter(self):
         '''
         Description:
-            This function calls already created stored procedure.
+            This function calls already created inout paramater procedure.
         Parameter:
             it takes self as parameter.
         '''
